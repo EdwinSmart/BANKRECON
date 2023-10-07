@@ -5,158 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cross-Referencing Tables</title>
     <style>
-
-         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 20px;
-            background-color: #f0f0f0;
-        }
-
-        h2 {
-            color: #333;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            border-radius: 8px;
-            background-color: #fff;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-            text-transform: uppercase;
-            font-size: 12px;
-            letter-spacing: 1px;
-        }
-
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-
-        .excel-table-container {
-            overflow-x: auto;
-        }
-
-        td [contenteditable=true] {
-            outline: 1px solid #bbb;
-            min-height: 1.6em;
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-            border: none;
-            background-color: transparent;
-            font-size: 14px;
-            line-height: 1.4;
-            resize: none;
-        }
-
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4caf50;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        #results {
-            margin-top: 20px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .matched {
-            background-color: #d4edda;
-        }
-
-        .unmatched {
-            background-color: #f8d7da;
-        }
-    </style>
-</head>
-<body>
-
-<div class="excel-table-container">
-    <h2>BANK TABLE</h2>
-    <textarea id="table1Data" placeholder="Paste data from Excel here"></textarea>
-    <button onclick="populateTable('table1Data', 'table1')">POPULATE BANK TABLE</button>
-    <table id="table1">
-        <!-- Your table structure remains unchanged -->
-    </table>
-</div>
-
-<div class="excel-table-container">
-    <h2>KRANIUM TABLE</h2>
-    <textarea id="table2Data" placeholder="Paste data from Excel here"></textarea>
-    <button onclick="populateTable('table2Data', 'table2')">POPULATE KRANIUM TABLE</button>
-    <table id="table2">
-        <!-- Your table structure remains unchanged -->
-    </table>
-</div>
-
-<button onclick="crossReference()">Cross-Reference Tables</button>
-
-<div id="results"></div>
-
-<script>
-    function populateTable(textAreaId, tableId) {
-        var textArea = document.getElementById(textAreaId);
-        var table = document.getElementById(tableId);
-
-        // Clear existing rows
-        table.innerHTML = '';
-
-        // Split the pasted data into rows and cells
-        var rows = textArea.value.trim().split('\n');
-        for (var i = 0; i < rows.length; i++) {
-            var cells = rows[i].split('\t'); // Assuming tab-separated data
-
-            var row = table.insertRow(-1); // Append a new row to the table
-
-            for (var j = 0; j < cells.length; j++) {
-                var cell = row.insertCell(j); // Append a new cell to the row
-                cell.contentEditable = true; // Make the cell editable
-                cell.textContent = cells[j].trim(); // Set cell content
-            }
-        }
-    }
-
-    // ... Your existing cross-referencing function ...
-</script>
-
-<script>
-function crossReference() {
-  var table1Rows = document.getElementById('table1').rows;
-  var table2Rows = document.getElementById('table2').rows;
-  var matchedResults = [];
-  var unmatchedResults = [];
-
-  for (var i = 1; i < table1Rows.length; i++) {
-    var authId1 = table1Rows[i].My apologies, but it seems that the code snippet got cut off. Could you please provide the complete code so that I can assist you better?<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cross-Referencing Tables</title>
-    <style>
-
-         body {
+        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 20px;
             background-color: #f0f0f0;
@@ -282,77 +131,63 @@ function crossReference() {
             for (var j = 0; j < cells.length; j++) {
                 var cell = row.insertCell(j); // Append a new cell to the row
                 cell.contentEditable = true; // Make the cell editable
-                cell.textContent = cells[j].trim(); // Set cell content
+                cell.innerHTML = cells[j].trim(); // Set cell content using innerHTML
             }
         }
     }
 
-    // ... Your existing cross-referencing function ...
-</script>
+    function crossReference() {
+        var table1Rows = document.getElementById('table1').rows;
+        var table2Rows = document.getElementById('table2').rows;
+        var matchedResults = [];
+        var unmatchedResults = [];
 
-<script>
-function crossReference() {
-    var table1Rows = document.getElementById('table1').rows;
-    var table2Rows = document.getElementById('table2').rows;
-    var matchedResults = [];
-    var unmatchedResults = [];
+        for (var i = 1; i < table2Rows.length; i++) {
+            var authId2 = table2Rows[i].cells[8].textContent.trim(); // Assuming AUTH ID is in column 9 of Table 2
+            var amount2 = parseFloat(table2Rows[i].cells[7].textContent.trim()); // Assuming amount is in column 8 of Table 2
 
-    for (var i = 1; i < table1Rows.length; i++) {
-        var authId1 = table1Rows[i].cells[8].textContent.trim(); // Assuming AUTH ID is in column 9 of Table 1
-        var amount1 = parseFloat(table1Rows[i].cells[9].textContent.trim()); // Assuming amount is in column 10 of Table 1
+            var matchFound = false;
 
-        var matchFound = false;
+            for (var j = 1; j < table1Rows.length; j++) {
+                var authId1 = table1Rows[j].cells[8].textContent.trim(); // Assuming AUTH ID is in column 9 of Table 1
+                var amount1 = parseFloat(table1Rows[j].cells[9].textContent.trim()); // Assuming amount is in column 10 of Table 1
+                var column14Value = table1Rows[j].cells[13].textContent.trim(); // Assuming the value from column 14 of Table 1
 
-        for (var j = 1; j < table2Rows.length; j++) {
-            var authId2 = table2Rows[j].cells[3].textContent.trim(); // Assuming AUTH ID is in column 4 of Table 2
-            var amount2 = parseFloat(table2Rows[j].cells[7].textContent.trim()); // Assuming amount is in column 8 of Table 2
+                if (authId1 === authId2 && amount1 === amount2) {
+                    table1Rows[j].classList.add('matched');
+                    table2Rows[i].classList.add('matched');
+                    matchedResults.push({ authId: authId2, amount: amount2, column14: column14Value });
+                    matchFound = true;
+                    break;
+                }
+            }
 
-            if (authId1 === authId2 && amount1 === amount2) {
-                table1Rows[i].classList.add('matched');
-                table2Rows[j].classList.add('matched');
-                matchedResults.push({ authId: authId1, amount: amount1 });
-                matchFound = true;
-                break;
+            if (!matchFound) {
+                table2Rows[i].classList.add('unmatched');
+                unmatchedResults.push({ authId: authId2, amount: amount2, column14: column14Value });
             }
         }
 
-        if (!matchFound) {
-            table1Rows[i].classList.add('unmatched');
-            unmatchedResults.push({ authId: authId1, amount: amount1 });
+        var resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = '';
+
+        if (matchedResults.length > 0 || unmatchedResults.length > 0) {
+            var resultsTable = document.createElement('table');
+            resultsTable.innerHTML = '<tr><th>AUTH ID</th><th>Amount</th><th>Column 14</th><th>Match Status</th></tr>';
+
+            for (var k = 0; k < matchedResults.length; k++) {
+                resultsTable.innerHTML += `<tr class="matched"><td>${matchedResults[k].authId}</td><td>${matchedResults[k].amount}</td><td>${matchedResults[k].column14}</td><td>Matched</td></tr>`;
+            }
+
+            for (var l = 0; l < unmatchedResults.length; l++) {
+                resultsTable.innerHTML += `<tr class="unmatched"><td>${unmatchedResults[l].authId}</td><td>${unmatchedResults[l].amount}</td><td>${unmatchedResults[l].column14}</td><td>Unmatched</td></tr>`;
+            }
+
+            resultsDiv.appendChild(resultsTable);
+        } else {
+            resultsDiv.innerHTML = 'No results to display.';
         }
     }
-
-    var resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = '';
-
-    if (matchedResults.length > 0) {
-        var matchedHeader = document.createElement('h3');
-        matchedHeader.textContent = 'Matched Results:';
-        resultsDiv.appendChild(matchedHeader);
-
-        var matchedList = document.createElement('ul');
-        for (var k = 0; k < matchedResults.length; k++) {
-            var matchedItem = document.createElement('li');
-            matchedItem.textContent = `AUTH ID: ${matchedResults[k].authId}, Amount: ${matchedResults[k].amount}`;
-            matchedList.appendChild(matchedItem);
-        }
-        resultsDiv.appendChild(matchedList);
-    }
-
-    if (unmatchedResults.length > 0) {
-        var unmatchedHeader = document.createElement('h3');
-        unmatchedHeader.textContent = 'Unmatched Results:';
-        resultsDiv.appendChild(unmatchedHeader);
-
-        var unmatchedList = document.createElement('ul');
-        for (var l = 0; l < unmatchedResults.length; l++) {
-            var unmatchedItem = document.createElement('li');
-            unmatchedItem.textContent = `AUTH ID: ${unmatchedResults[l].authId}, Amount: ${unmatchedResults[l].amount}`;
-            unmatchedList.appendChild(unmatchedItem);
-        }
-        resultsDiv.appendChild(unmatchedList);
-    }
-}
 </script>
 
 </body>
